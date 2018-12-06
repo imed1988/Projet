@@ -20,7 +20,7 @@ namespace Projet.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(Login l, string ReturnUrl="")
+        public ActionResult Login(Login l, string ReturnUrl="" )
         {
             //using (DBEntities db = new DBEntities())
             //{
@@ -45,49 +45,61 @@ namespace Projet.Controllers
             //if (ModelState.IsValid)
             //{
             //    var isValidUser = Membership.ValidateUser(l.Username, l.Password);
-            //    if(isValidUser)
+            //    if (isValidUser)
             //    {
             //        FormsAuthentication.SetAuthCookie(l.Username, l.RememberMe);
-            //        if(Url.IsLocalUrl(ReturnUrl))
+            //        if (Url.IsLocalUrl(ReturnUrl))
             //        {
             //            return Redirect(ReturnUrl);
             //        }
             //        else
             //        {
-            //            return RedirectToAction("Index","Home");
+            //            return RedirectToAction("Index", "Home");
             //        }
             //    }
 
             //}
 
+
+
+            // Lets first check if the Model is valid or not
             if (ModelState.IsValid)
             {
-                bool isValidUser = Membership.ValidateUser(l.Username, l.Password);
-                if (isValidUser)
+                using (DBEntities db = new DBEntities())
                 {
-                    Users user = null;
-                    using (DBEntities db = new DBEntities())
-                    {
-                        user = db.Users.Where(a => a.Username.Equals(l.Username)).FirstOrDefault();
-                    }
+                    string username = l.Username;
+                    string password = l.Password;
 
-                    if(user != null)
+                    // Now if our password was enctypted or hashed we would have done the
+                    // same operation on the user entered password here, But for now
+                    // since the password is in plain text lets just authenticate directly
+
+                    var isValidUser = Membership.ValidateUser(username, password);
+
+                    // User found in the database
+                    if (isValidUser)
                     {
-                        JavaScriptSerializer js = new JavaScriptSerializer();
-                        string data = js.Serialize(user);
-                        FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Username, DateTime.Now, DateTime.Now.AddMinutes(30), l.RememberMe, data);
-                        string encToken = FormsAuthentication.Encrypt(ticket);
-                        HttpCookie authoCookies = new HttpCookie(FormsAuthentication.FormsCookieName, encToken);
-                        Response.Cookies.Add(authoCookies);
-                        return Redirect(ReturnUrl);
+
+                        FormsAuthentication.SetAuthCookie(username, false);
+                        if (Url.IsLocalUrl(ReturnUrl) && ReturnUrl.Length > 1 && ReturnUrl.StartsWith("/")
+                            && !ReturnUrl.StartsWith("//") && !ReturnUrl.StartsWith("/\\"))
+                        {
+                            return Redirect(ReturnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "The user name or password provided is incorrect.");
                     }
                 }
-                   
             }
 
-
-            ModelState.Remove("Password");
-                return View();
+            // If we got this far, something failed, redisplay form
+            return View(l);
         }
 
 

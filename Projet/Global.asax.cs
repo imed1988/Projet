@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 
 namespace Projet
@@ -19,13 +20,6 @@ namespace Projet
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        protected void Application_PostAuthenticateRequest()
-        {
-            HttpCookie authcookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            if(authcookie !=null)
-            {
-                FormsAuthenticationTicket authticket = FormsAuthenticationTicket.decrypt(authcookie.Value);
-            }
-        }
+        
     }
 }
