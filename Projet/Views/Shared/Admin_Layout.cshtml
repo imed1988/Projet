@@ -1,41 +1,40 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mon application ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
 
-   
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <style>
-        .menu {
-            list-style: none;
-            float: right;
+        .menu{
+            list-style:none;
+            float:right;
         }
 
 
-            .menu li {
-                float: left;
-            }
+        .menu li{
+            float:left;
+        }
 
-                .menu li a {
-                    padding: 5px;
-                    margin-right: 2px;
-                    background-color: #f3f3f3;
-                }
+        .menu li a {
+            padding:5px;
+            margin-right:2px;
+            background-color:#f3f3f3;
+        }
+
     </style>
-
+    
 </head>
 <body>
    
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                
-                @Html.ActionLink("GPAO-RNTA", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+                @Html.ActionLink("Nom de l'application", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="nav navbar-nav">
 
@@ -52,14 +51,15 @@
                                 <text>Welcome <strong>@User.Identity.Name</strong>!
                                 [ @Html.ActionLink("Logout", "Logout", "MyAccount") ]</text>
                             }
-                         
+
 
                         </div>
 
-            </ul>
+                </ul>
                 <div style="height:1px; clear:both"></div>
             </div>
         </div>
+       
     </div>
     <div class="container body-content">
         @RenderBody()

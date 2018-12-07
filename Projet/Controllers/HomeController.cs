@@ -15,16 +15,19 @@ namespace Projet.Controllers
             return View();
         }
 
-        [Authorize]
+   
         public ActionResult MyProfile()
         {
             return View();
         }
 
+             
+    
+
         [Authorize (Roles ="Admin")]
         public ActionResult AdminIndex()
         {
-            return View();
+            return View("AdminIndex", "Admin_Layout");
         }
 
         [Authorize(Roles = "User")]
