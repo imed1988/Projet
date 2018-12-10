@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projet.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,17 +25,20 @@ namespace Projet.Controllers
              
     
 
-        [Authorize (Roles ="Admin")]
+        [Authorize (Roles ="Administrateur")]
         public ActionResult AdminIndex()
         {
             return View("AdminIndex", "Admin_Layout");
         }
 
-        [Authorize(Roles = "User")]
-        public ActionResult UserIndex()
+        [Authorize(Roles = "Secretaire de Production")]
+        public ActionResult SecretaireProdIndex()
         {
             return View();
         }
+
+
+       
 
 
     }
