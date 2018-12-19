@@ -1,6 +1,10 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Home Page";
 }
 
-<h2>Home Page</h2>
-<h2>Welcome Guest - This for all anonymous user</h2>
+<div class="panel panel-body">
+    <div class="col-md-9">
+        @{Html.RenderAction("IndexMenu", "Home");}
+    </div>
+</div>
